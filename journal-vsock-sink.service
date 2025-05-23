@@ -1,0 +1,16 @@
+[Unit]
+Description=Receives journal messages over VSOCK
+After=systemd-journald.service
+After=network.target
+Requires=network.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/mkdir -p /var/log/journal/vsock
+ExecStart=/lib/systemd/systemd-journal-remote \
+  --listen-raw=vsock:2:52000 \
+  --output=/var/log/journal/vsock
+Restart=always
+
+[Install]
+WantedBy=basic.target
