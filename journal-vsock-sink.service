@@ -2,6 +2,7 @@
 Description=Receives journal messages over VSOCK
 After=systemd-journald.service
 After=network.target
+After=libvirtd.service
 Requires=network.target
 
 [Service]
@@ -11,6 +12,7 @@ ExecStart=/lib/systemd/systemd-journal-remote \
   --listen-raw=vsock:2:52000 \
   --output=/var/log/journal/vsock
 Restart=always
+RestartSec=2
 
 [Install]
 WantedBy=basic.target
